@@ -8,7 +8,7 @@ function toHexString(byteArray) {
   }).join(' ')
 }
 
-let print = 1;
+let print = 0;
 
 let source = new fs.readFileSync('/tmp/test_source');
 let target = new fs.readFileSync('/tmp/test_target');
@@ -24,5 +24,8 @@ if (print)
 let result = vcdiff.decodeSync(xdelta, source);
 if (print)
     console.log('result = ' + toHexString(result));
+
+    console.log('result = ' + result.length);
+    console.log('target = ' + target.length);
 
 fs.writeFileSync('/tmp/test_out', result);
