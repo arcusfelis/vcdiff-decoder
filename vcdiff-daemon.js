@@ -48,13 +48,23 @@ net.createServer(function (socket) {
       if (delta)
       {
 		  console.log("source=" + source.length + " delta=" + delta.length);
-          let result = vcdiff.decodeSync(delta, source);
-		  console.log("result=" + result.length);
+          try
+          {
+              let result = vcdiff.decodeSync(delta, source);
+              console.log("result=" + result.length);
 
-		  var buf = new Buffer(4);
-		  buf.writeUInt32BE(result.length, 0);
-          socket.write(buf);
-          socket.write(new Buffer(result));
+              var buf = new Buffer(4);
+              buf.writeUInt32BE(result.length, 0);
+              socket.write(buf);
+              socket.write(new Buffer(result));
+          }
+          catch (err)
+          {
+              console.log("err " + err);
+              console.log(err.stack);
+              var buf = new Buffer(4);
+              socket.write(buf);
+          }
       }
 	})
 
