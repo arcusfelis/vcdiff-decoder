@@ -9,6 +9,7 @@ function toHexString(byteArray) {
 }
 
 let print = 0;
+let use_etalon = 0;
 
 let source = new fs.readFileSync('/tmp/test_source');
 let target = new fs.readFileSync('/tmp/test_target');
@@ -21,7 +22,12 @@ if (print)
     console.log('target = ' + toHexString(target));
 }
 
-let result = vcdiff.decodeSync(xdelta, source);
+let etalon;
+
+if (use_etalon)
+    etalon = target;
+
+let result = vcdiff.decodeSync(xdelta, source, etalon);
 if (print)
     console.log('result = ' + toHexString(result));
 
